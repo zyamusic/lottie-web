@@ -6722,7 +6722,11 @@ var SVGElementsRenderer = (function() {
 	    var styleElem = itemData.style;
 
 	    if(itemData.c._mdf || isFirstFrame){
-	        styleElem.pElem.setAttribute('fill','rgb('+bm_floor(itemData.c.v[0])+','+bm_floor(itemData.c.v[1])+','+bm_floor(itemData.c.v[2])+')');
+	        if(itemData.c.v.length == 4){
+	           styleElem.pElem.setAttribute('fill','rgba('+bm_floor(itemData.c.v[0])+','+bm_floor(itemData.c.v[1])+','+bm_floor(itemData.c.v[2])+','+bm_floor(itemData.c.v[3])+')');
+	        }else{
+	           styleElem.pElem.setAttribute('fill','rgb('+bm_floor(itemData.c.v[0])+','+bm_floor(itemData.c.v[1])+','+bm_floor(itemData.c.v[2])+')');
+	        }
 	    }
 	    if(itemData.o._mdf || isFirstFrame){
 	        styleElem.pElem.setAttribute('fill-opacity',itemData.o.v);
@@ -7040,6 +7044,9 @@ SVGBaseElement.prototype = {
             this.baseElement = this.matteElement;
         } else {
             this.baseElement = this.layerElement;
+        }
+        if (this.data.nm) {
+            this.layerElement.setAttribute('id', this.data.nm);
         }
         if (this.data.ln) {
             this.layerElement.setAttribute('id', this.data.ln);
@@ -10820,6 +10827,9 @@ HBaseElement.prototype = {
         this.renderableEffectsManager = new CVEffects(this);
         this.transformedElement = this.baseElement;
         this.maskedElement = this.layerElement;
+        if (this.data.nm) {
+            this.layerElement.setAttribute('id',this.data.nm);
+        }
         if (this.data.ln) {
             this.layerElement.setAttribute('id',this.data.ln);
         }
